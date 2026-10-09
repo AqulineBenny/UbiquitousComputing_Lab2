@@ -10,9 +10,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvMesseage"
+        android:id="@+id/tvMessage"
         android:text=""
         android:textSize="20sp"
-        android/>
+        android:gravity="center"
+        android:layout_marginTop="32dp"/>
 
 </LinearLayout>

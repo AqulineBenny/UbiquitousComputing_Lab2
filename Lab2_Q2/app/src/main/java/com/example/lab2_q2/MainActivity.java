@@ -5,6 +5,8 @@ import android.widget.EditText;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.net.Uri;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,10 +77,21 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        Intent sendIntent = new Intent(this, ThankYouActivity.class);
-        sendIntent.putExtra("name", name);
-        startActivity(sendIntent);
+        Random random = new Random();
+        int code = random.nextInt(9000) + 1000;
 
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse("mailto:" + email));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Validation Code");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello " + name + ", your validation code is: " + code);
+        if (emailIntent.resolveActivity(getPackageManager()) != null){
+            startActivity(emailIntent);
+        }
+
+        Intent validateIntent = new Intent(this,ValidateActivity.class);
+        validateIntent.putExtra("name",name);
+        validateIntent.putExtra("code",code);
+        startActivity(validateIntent);
     }
 
     private boolean containsDigits(String string){
